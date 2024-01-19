@@ -11,6 +11,7 @@ int main(int argc, char **argv)
 		return (1);
 	}
 	status = get_status();
+	status->running = true;
 	status->num_philos = atoi(argv[1]);
 	status->time_to_die = atoi(argv[2]);
 	status->time_to_eat = atoi(argv[3]);
@@ -22,5 +23,7 @@ int main(int argc, char **argv)
 	status->start_time = get_time();
 	philo = init_philo(status);
 	handle_philo(status, philo);
+	// monitoring(status);
+	destroy_mutexes(philo);
 	return (0);	
 }

@@ -24,6 +24,7 @@ typedef struct s_philos
 	int				num_meals;
 	long int		last_eat_time;
 	pthread_mutex_t	print;
+	pthread_mutex_t	mutex;
 	pthread_mutex_t	left_fork;
 	pthread_mutex_t	right_fork;
 	struct s_philos	*next;
@@ -42,7 +43,7 @@ typedef struct s_status
 	t_bool			died;
 	t_bool			left_fork;
 	t_bool			right_fork;
-	t_bool			*running;
+	t_bool			running;
 }					t_status;
 
 //################################## init ######################################
@@ -58,7 +59,13 @@ int 				handle_philo(t_status *status, t_philos *philo);
 //################################## actions ###################################
 
 long int    		get_time(void);
-void    			print_time(t_status *status);
+// void    			print_time(t_status *status);
 void				thinking(t_status *status, t_philos *current);
+void				eating(t_status *status, t_philos *current);
+
+//################################## utils #####################################
+
+void				destroy_mutexes(t_philos *philo);
+void				*monitoring(void *ptr);
 
 #endif

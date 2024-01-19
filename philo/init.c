@@ -2,13 +2,8 @@
 
 t_status	*get_status(void)
 {
-	static t_philos philo;
-	static t_bool running;
 	static t_status status;
 
-	running = true;
-	status.head = &philo;
-	status.running = &running;
 	return (&status);
 }
 
@@ -24,6 +19,7 @@ t_philos	*add_philo(t_status *status)
 	new_philo->time_to_eat = status->time_to_eat;
 	new_philo->time_to_sleep = status->time_to_sleep;
 	new_philo->last_eat_time = status->start_time;
+	pthread_mutex_init(&new_philo->mutex, NULL);
 	pthread_mutex_init(&new_philo->print, NULL);
 	pthread_mutex_init(&new_philo->left_fork, NULL);
 	pthread_mutex_init(&new_philo->right_fork, NULL);
