@@ -39,6 +39,6 @@ void    init_philos(t_philo *philo, t_status *status)
         philo[i].time_last_eat = 0;
         philo[i].status = status;
         philo[i].left_fork = &status->forks[i];
-        philo[i].right_fork = &status->forks[(i + 1) % status->nbr_philo];
+        philo[i].right_fork = &status->forks[(i + 1) % status->nbr_philo]; // se der problema, trocar para if-else
     }
 }
