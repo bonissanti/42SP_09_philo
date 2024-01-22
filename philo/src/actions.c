@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/22 18:48:00 by brunrodr          #+#    #+#             */
-/*   Updated: 2024/01/22 18:48:01 by brunrodr         ###   ########.fr       */
+/*   Created: 2024/01/22 18:47:32 by brunrodr          #+#    #+#             */
+/*   Updated: 2024/01/22 18:48:54 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-long int    get_time_now(void)
+void	eat(t_philo *philo)
 {
-    struct timeval  tv;
-
-    gettimeofday(&tv, NULL);
-    return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	if (philo->id % 2 == 0)
+	{
+		
+	}
 }

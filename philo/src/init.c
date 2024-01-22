@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/22 18:47:40 by brunrodr          #+#    #+#             */
+/*   Updated: 2024/01/22 18:47:41 by brunrodr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 void    init_status(int argc, char **argv, t_status *status)
@@ -20,6 +32,7 @@ void    init_status(int argc, char **argv, t_status *status)
     pthread_mutex_init(&status->eat, NULL);
     pthread_mutex_init(&status->dead, NULL);
     pthread_mutex_init(&status->nbr_eat, NULL);
+
 
     status->forks = malloc(sizeof(pthread_mutex_t) * status->nbr_philo);
     while (++i < status->nbr_philo)
