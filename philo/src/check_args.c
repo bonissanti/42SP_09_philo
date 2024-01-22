@@ -19,9 +19,9 @@ t_bool	check_args(int argc, char **argv)
 				printf("Error: Arguments must be numbers\n");
 				return (false);
 			}
-			if (ft_atol(str) < -2147483648 || ft_atol(str) > 2147483647)
+			if (ft_atol(str) < 0 || ft_atol(str) > 2147483647)
 			{
-				printf("Error: Arguments must be between -2147483648 and 2147483647\n");
+				printf("Error: Arguments must be between 0 and 2147483647\n");
 				return (false);
 			}
 			str++;
