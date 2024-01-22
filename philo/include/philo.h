@@ -24,7 +24,7 @@ typedef struct s_status
     int				is_dead;
     long			start;
     pthread_mutex_t	*forks;
-    pthread_mutex_t	printf;
+    pthread_mutex_t	print;
     pthread_mutex_t	eat;
     pthread_mutex_t	dead;
     pthread_mutex_t nbr_eat;
@@ -45,6 +45,10 @@ typedef struct s_philo
 t_bool	    check_args(int argc, char **argv);
 void        init_status(int argc, char **argv, t_status *status);
 void        init_philos(t_philo *philo, t_status *status);
+
+//##################################### THREADS ################################
+
+void	    start_threads(t_philo *philos, t_status *status);
 
 //##################################### UTILS ##################################
 

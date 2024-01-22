@@ -16,7 +16,7 @@ void    init_status(int argc, char **argv, t_status *status)
     status->is_dead = 0;
     status->start = get_time_now();
 
-    pthread_mutex_init(&status->printf, NULL);
+    pthread_mutex_init(&status->print, NULL);
     pthread_mutex_init(&status->eat, NULL);
     pthread_mutex_init(&status->dead, NULL);
     pthread_mutex_init(&status->nbr_eat, NULL);

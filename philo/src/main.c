@@ -11,6 +11,7 @@ int main(int argc, char **argv)
     init_status(argc, argv, status);
     philo = malloc(sizeof(t_philo) * status->nbr_philo);
     init_philos(philo, status);
+    start_threads(philo, status);
 }
 
     // função para criar threads, passo o status como &status

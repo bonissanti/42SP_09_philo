@@ -18,7 +18,8 @@ MAND_SRCS = main.c \
 		check_args.c \
 		init.c \
 		time.c \
-		minilib.c 
+		minilib.c \
+		threads.c
 
 SRC = $(addprefix ./src/, $(MAND_SRCS))
 
