@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 18:47:56 by brunrodr          #+#    #+#             */
-/*   Updated: 2024/01/23 15:17:07 by brunrodr         ###   ########.fr       */
+/*   Updated: 2024/01/23 18:58:30 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,35 @@ static void	*philo_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	status = philo->status;
+	if (philo->id % 2 == 0)
+		usleep(5000);
 	while (1)
 	{
-		pthread_mutex_lock(&status->print);
+		thinking(philo);
+		pthread_mutex_lock(&status->dead);
 		if (status->is_dead == 1)
 		{
-			pthread_mutex_unlock(&status->print);
+			pthread_mutex_unlock(&status->dead);
 			break ;
 		}
-		pthread_mutex_unlock(&status->print);
-		eating(philo);
-		thinking(philo);
+		pthread_mutex_unlock(&status->dead);
 		sleeping(philo);
+		eating(philo);
 		// printf("philo->had_dinner = %d\n", philo->had_dinner);
 	}
+	// if (philo->id % 2 == 0)
+	// 	usleep(8000);
 	return (NULL);
+}
+
+static int	check_death(t_philo *philo, t_status *status, long int time_now)
+{
+	int	died;
+	
+	pthread_mutex_lock(&status->dead);
+	died = (time_now - philo->time_last_eat > status->time_to_die);
+	pthread_mutex_unlock(&status->dead);
+	return (died);
 }
 
 void	*monitor(void *arg)
@@ -51,10 +65,13 @@ void	*monitor(void *arg)
 		while (++i < status->nbr_philo)
 		{
 			pthread_mutex_lock(&status->print);
-			time_now = get_time_now();
-			if (time_now - philo[i].time_last_eat > status->time_to_die)
+			time_now = get_time_now() - status->start;
+			if (check_death(&philo[i], status, time_now))
 			{
+				pthread_mutex_lock(&status->dead);
 				status->is_dead = 1;
+				print_death(philo, "died");
+				pthread_mutex_unlock(&status->dead);
 				pthread_mutex_unlock(&status->print);
 				return (NULL);
 			}
@@ -66,7 +83,7 @@ void	*monitor(void *arg)
 			// }
 			pthread_mutex_unlock(&status->print);
 		}
-		usleep(1000);
+		usleep(100);
 	}
 	return (NULL);
 }
@@ -168,6 +185,20 @@ void	start_threads(t_philo *philos, t_status *status)
 			printf("Error: thread join failed\n");
 	}
 	pthread_join(monitoring, NULL);
-	// printf("teste: %d\n", teste);
 	free(threads);
+}
+
+void	free_status(t_status *status)
+{
+	int	i;
+
+	i = -1;
+	while (++i < status->nbr_philo)
+		pthread_mutex_destroy(&status->forks[i]);
+	pthread_mutex_destroy(&status->print);
+	pthread_mutex_destroy(&status->eat);
+	pthread_mutex_destroy(&status->dead);
+	pthread_mutex_destroy(&status->nbr_eat);
+	free(status->forks);
+	free(status);
 }

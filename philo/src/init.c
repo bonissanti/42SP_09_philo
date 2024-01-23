@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 18:47:40 by brunrodr          #+#    #+#             */
-/*   Updated: 2024/01/23 15:18:10 by brunrodr         ###   ########.fr       */
+/*   Updated: 2024/01/23 18:13:12 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void    init_status(int argc, char **argv, t_status *status)
         status->nbr_must_eat = (int)ft_atol(argv[5]);
     else
         status->nbr_must_eat = -1;
+    status->jantou = 0;
     status->is_dead = 0;
     status->start = get_time_now();
 
@@ -32,7 +33,6 @@ void    init_status(int argc, char **argv, t_status *status)
     pthread_mutex_init(&status->eat, NULL);
     pthread_mutex_init(&status->dead, NULL);
     pthread_mutex_init(&status->nbr_eat, NULL);
-
 
     status->forks = malloc(sizeof(pthread_mutex_t) * status->nbr_philo);
     while (++i < status->nbr_philo)
@@ -44,7 +44,6 @@ void    init_philos(t_philo *philo, t_status *status)
     int i;
 
     i = -1;
-    // philo = malloc(sizeof(t_philo) * status->nbr_philo);
     while (++i < status->nbr_philo)
     {
         philo[i].id = i + 1;
@@ -52,6 +51,6 @@ void    init_philos(t_philo *philo, t_status *status)
         philo[i].time_last_eat = 0;
         philo[i].status = status;
         philo[i].left_fork = &status->forks[i];
-        philo[i].right_fork = &status->forks[(i + 1) % status->nbr_philo]; // se der problema, trocar para if-else
+        philo[i].right_fork = &status->forks[(i + 1) % status->nbr_philo];
     }
 }

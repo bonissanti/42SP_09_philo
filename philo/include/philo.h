@@ -22,6 +22,7 @@ typedef struct s_status
     int				time_to_eat;
     int				time_to_sleep;
     int				nbr_must_eat;
+    int             jantou;
     int				is_dead;
     long			start;
     pthread_mutex_t	*forks;
@@ -61,8 +62,10 @@ void	    sleeping(t_philo *philo);
 
 void	    *ft_calloc(size_t count, size_t size);
 void	    print_actions(t_philo *philo, char *msg);
+void	    print_death(t_philo *philo, char *msg);
 t_bool	    philo_dined(t_philo *philo);
 long int	ft_atol(const char *str);
 long int    get_time_now(void);
+void	    free_status(t_status *status);
 
 # endif

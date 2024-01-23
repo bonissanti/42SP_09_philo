@@ -6,11 +6,12 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 18:47:44 by brunrodr          #+#    #+#             */
-/*   Updated: 2024/01/22 18:47:45 by brunrodr         ###   ########.fr       */
+/*   Updated: 2024/01/23 18:11:17 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+
 
 int main(int argc, char **argv)
 {
@@ -24,6 +25,8 @@ int main(int argc, char **argv)
     philo = malloc(sizeof(t_philo) * status->nbr_philo);
     init_philos(philo, status);
     start_threads(philo, status);
+    free_status(status);
+    free(philo);
 }
 
     // função para criar threads, passo o status como &status
