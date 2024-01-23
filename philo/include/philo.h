@@ -8,6 +8,7 @@
 # include <string.h>
 # include <sys/time.h>
 
+
 typedef enum e_bool
 {
     false,
@@ -33,8 +34,8 @@ typedef struct s_status
 typedef struct s_philo
 {
     int				id;
-    int				times_ate;
     long			time_last_eat;
+    int 			had_dinner;
     t_status		*status;
     pthread_mutex_t	*left_fork;
     pthread_mutex_t	*right_fork;
@@ -50,10 +51,18 @@ void        init_philos(t_philo *philo, t_status *status);
 
 void	    start_threads(t_philo *philos, t_status *status);
 
+//##################################### ACTIONS ################################
+
+void	    eating(t_philo *philo);
+void	    thinking(t_philo *philo);
+void	    sleeping(t_philo *philo);
+
 //##################################### UTILS ##################################
 
-long int	ft_atol(const char *str);
 void	    *ft_calloc(size_t count, size_t size);
+void	    print_actions(t_philo *philo, char *msg);
+t_bool	    philo_dined(t_philo *philo);
+long int	ft_atol(const char *str);
 long int    get_time_now(void);
 
 # endif

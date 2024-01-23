@@ -6,7 +6,7 @@
 /*   By: brunrodr <brunrodr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 18:47:40 by brunrodr          #+#    #+#             */
-/*   Updated: 2024/01/22 18:47:41 by brunrodr         ###   ########.fr       */
+/*   Updated: 2024/01/23 15:18:10 by brunrodr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void    init_philos(t_philo *philo, t_status *status)
     while (++i < status->nbr_philo)
     {
         philo[i].id = i + 1;
-        philo[i].times_ate = 0;
+        philo[i].had_dinner = 0;
         philo[i].time_last_eat = 0;
         philo[i].status = status;
         philo[i].left_fork = &status->forks[i];
