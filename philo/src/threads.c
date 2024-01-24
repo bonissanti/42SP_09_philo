@@ -12,6 +12,16 @@
 
 #include "../include/philo.h"
 
+void	one_philo(t_philo *philo)
+{
+	pthread_mutex_lock(philo->right_fork);
+	print_actions(philo, "has taken a fork");
+	pthread_mutex_unlock(philo->right_fork);
+	usleep(philo->status->time_to_die * 1000);
+	print_death(philo, "died");
+	return ;
+}
+
 static void	*philo_routine(void *arg)
 {
 	t_philo		*philo;
@@ -25,7 +35,7 @@ static void	*philo_routine(void *arg)
 	{
 		eating(philo);
 		pthread_mutex_lock(&status->dead);
-		if (status->is_dead == 1)
+		if (status->is_dead == 1 || status->out_of_food == 1)
 		{
 			pthread_mutex_unlock(&status->dead);
 			break ;
@@ -34,72 +44,12 @@ static void	*philo_routine(void *arg)
 		thinking(philo);
 		sleeping(philo);
 	}
-	// if (philo->id % 2 == 0)
-	// 	usleep(8000);
-	return (NULL);
-}
-
-static int	check_death(t_philo *philo, t_status *status, long int time_now)
-{
-	int	died;
-	
-	pthread_mutex_lock(&status->dead);
-	died = (time_now - philo->time_last_eat > status->time_to_die);
-	pthread_mutex_unlock(&status->dead);
-	return (died);
-}
-
-void	*monitor(void *arg)
-{
-	int			i;
-	int			all_ate_enough;
-	long int	time_now;
-	t_philo		*philo;
-	t_status	*status;
-
-	philo = (t_philo *)arg;
-	status = philo[0].status;
-	while (1)
-	{
-		i = -1;
-		all_ate_enough = (status->nbr_must_eat > 0);
-		while (++i < status->nbr_philo)
-		{
-			pthread_mutex_lock(&status->print);
-			time_now = get_time_now() - status->start;
-			if (check_death(&philo[i], status, time_now))
-			{
-				pthread_mutex_lock(&status->dead);
-				status->is_dead = 1;
-				print_death(philo, "died");
-				pthread_mutex_unlock(&status->dead);
-				pthread_mutex_unlock(&status->print);
-				return (NULL);
-			}
-			pthread_mutex_unlock(&status->print);
-			pthread_mutex_lock(&status->nbr_eat);
-			if (all_ate_enough && philo[i].had_dinner < status->nbr_must_eat)
-				all_ate_enough = 0;
-			pthread_mutex_unlock(&status->nbr_eat);
-		}
-		pthread_mutex_lock(&status->print);
-		if (all_ate_enough)
-		{
-			pthread_mutex_lock(&status->dead);
-			status->is_dead = 1;
-			pthread_mutex_unlock(&status->dead);
-			pthread_mutex_unlock(&status->print);
-			break ;
-		}
-		pthread_mutex_unlock(&status->print);
-		usleep(100);
-	}
 	return (NULL);
 }
 
 void	start_threads(t_philo *philos, t_status *status)
 {
-	int 		i;
+	int			i;
 	pthread_t	*threads;
 	pthread_t	monitoring;
 
@@ -107,15 +57,14 @@ void	start_threads(t_philo *philos, t_status *status)
 	threads = ft_calloc(status->nbr_philo, sizeof(pthread_t));
 	if (!threads)
 		return ;
-	
 	while (++i < status->nbr_philo)
 	{
-		if (pthread_create(&threads[i], NULL, &philo_routine, (void *)&philos[i]) != 0)
+		if (pthread_create(&threads[i], NULL, &philo_routine,
+				(void *)&philos[i]) != 0)
 			printf("Error: thread creation failed\n");
 	}
 	if (pthread_create(&monitoring, NULL, &monitor, philos) != 0)
 		printf("Error: thread creation failed\n");
-
 	i = -1;
 	while (++i < status->nbr_philo)
 	{

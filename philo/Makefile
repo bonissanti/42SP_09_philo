@@ -20,7 +20,7 @@ MAND_SRCS = main.c \
 		time.c \
 		minilib.c \
 		threads.c \
-		threads_utils.c \
+		monitor.c \
 		actions.c \
 		actions_utils.c \
 

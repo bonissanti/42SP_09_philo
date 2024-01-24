@@ -12,10 +12,24 @@
 
 #include "../include/philo.h"
 
+static t_bool	validate_argument(char *str)
+{
+	if (*str == '+' || *str == '-')
+		str++;
+	while (*str)
+	{
+		if (*str < 0x30 || *str > 0x39)
+		{
+			printf("Error: Arguments must be numbers\n");
+			return (false);
+		}
+		str++;
+	}
+	return (true);
+}
+
 t_bool	check_args(int argc, char **argv)
 {
-	char	*str;
-
 	if (argc < 5 || argc > 6)
 	{
 		printf("Error: Wrong number of arguments\n");
@@ -23,21 +37,8 @@ t_bool	check_args(int argc, char **argv)
 	}
 	while (*argv)
 	{
-		str = *argv;
-		while (*str)
-		{
-			if (*str < '0' || *str > '9')
-			{
-				printf("Error: Arguments must be numbers\n");
-				return (false);
-			}
-			if (ft_atol(str) < 0 || ft_atol(str) > 2147483647)
-			{
-				printf("Error: Arguments must be between 0 and 2147483647\n");
-				return (false);
-			}
-			str++;
-		}
+		if (!validate_argument(*argv))
+			return (false);
 		argv++;
 	}
 	return (true);
