@@ -12,6 +12,24 @@
 
 #include "../include/philo.h"
 
+/**
+ * Function: Init_status
+ * -----------------
+ * This function is used to initialize the status of the simulation. Here we
+ * call the atosz function to convert the arguments from string to size_t,
+ * then we initialize the mutexes and the forks, according to the number of
+ * philosophers.
+ *  
+ * @param: argc: The number of arguments.
+ * @param: **argv: The arguments that are going to be checked.
+ * @param: *status: The status of the simulation.
+ * @var: i: The iterator.
+ * @fn: pthread_mutex_init: Initializes the mutex.
+ * 
+ * @return: Returns nothing.
+ *
+ */
+
 void	init_status(int argc, char **argv, t_status *status)
 {
 	int	i;
@@ -37,6 +55,21 @@ void	init_status(int argc, char **argv, t_status *status)
 	while (++i < status->nbr_philo)
 		pthread_mutex_init(&status->forks[i], NULL);
 }
+
+/**
+ * Function: Init_philos
+ * -----------------
+ * This function is used to initialize the philosophers. Basically, we
+ * initialize the id, the number of times that the philosopher has eaten,
+ * the time of the last meal, the status of the simulation, the forks and
+ * the right and left forks.
+ *  
+ * @param: *status: The status of the simulation.
+ * @var: i: The iterator.
+ * 
+ * @return: Returns nothing.
+ *
+ */
 
 void	init_philos(t_philo *philo, t_status *status)
 {

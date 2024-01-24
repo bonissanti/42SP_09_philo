@@ -12,6 +12,22 @@
 
 #include "../include/philo.h"
 
+/**
+ * Function: Print actions
+ * -----------------
+ * This function is a generic function to print the actions of the
+ * philosophers, like eating, sleeping, thinking or dying.
+ *  
+ * @param: *philo: The philosopher that is going to perform the action.
+ * @param: *msg: The message to be printed.
+ * 
+ * @var: *status: The status of the simulation.
+ * @var: time_now: The time now.
+ * 
+ * @return: Returns nothing.
+ *
+ */
+
 void	print_actions(t_philo *philo, char *msg)
 {
 	t_status	*status;
@@ -28,6 +44,28 @@ void	print_actions(t_philo *philo, char *msg)
 	printf("%ld %d %s\n", time_now, philo->id, msg);
 	pthread_mutex_unlock(&status->print);
 }
+
+/**
+ * Function: Print death
+ * -----------------
+ * This function is similar to print_actions, but it is only used to print
+ * the death of a philosopher. Here we don't need to check if the philosopher
+ * is dead, because this function is only called when the philosopher is dead.
+ * 
+ * Besides, if we had used print_actions, mandatorily we would have to call
+ * pthread_mutex_lock(&status->dead) together with pthread_mutex_lock(&status->print)
+ * to check correctly if the philosopher is dead. Since we are only printing 
+ * the death, this is unnecessary.
+ *  
+ * @param: *philo: The philosopher that is going to perform the action.
+ * @param: *msg: The message to be printed.
+ * 
+ * @var: *status: The status of the simulation.
+ * @var: time_now: The time now.
+ * 
+ * @return: Returns nothing.
+ *
+ */
 
 void	print_death(t_philo *philo, char *msg)
 {

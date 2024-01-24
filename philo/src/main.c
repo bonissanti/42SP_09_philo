@@ -12,6 +12,27 @@
 
 #include "../include/philo.h"
 
+/**
+ * Function: main
+ * -----------------
+ * Every important function pass through here. At first, we check if the
+ * arguments are valid, then we initialize the status of the simulation and
+ * the philosophers. Finally, we check if the number of philosophers is 1,
+ * and if it is, we call the one_philo function, otherwise we call the
+ * start_threads function, because exists two different ways to run the
+ * simulation. Then, after the simulation is over (or the number of
+ * philosophers is 0), we free the memory allocated for the status and the
+ * philosophers.
+ *  
+ * @param: argc: The number of arguments.
+ * @param: **argv: The arguments that are going to be checked.
+ * @var: *status: The status of the simulation.
+ * @var: *philo: The philosophers.
+ * 
+ * @return: Returns 0 if the simulation is successful, 1 otherwise.
+ *
+ */
+
 int	main(int argc, char **argv)
 {
 	t_philo		*philo;

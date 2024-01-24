@@ -12,6 +12,19 @@
 
 #include "../include/philo.h"
 
+/**
+ * Function: Validate argument
+ * -----------------
+ * This function is used to check if the arguments passed are valid. Here we
+ * check if the arguments are numbers, and if they are not, we print an error
+ * message and return false.
+ *  
+ * @param: *str: The argument that is going to be checked.
+ * 
+ * @return: Returns true if the argument is valid, false otherwise.
+ *
+ */
+
 static t_bool	validate_argument(char *str)
 {
 	if (*str == '+' || *str == '-')
@@ -27,6 +40,21 @@ static t_bool	validate_argument(char *str)
 	}
 	return (true);
 }
+
+/**
+ * Function: Check args
+ * -----------------
+ * This function is used to check if the arguments passed are valid. Here we
+ * check if the number of arguments is correct, and if they are not, we print
+ * an error message and return false. Then we call the validate_argument
+ * function to check if the arguments are numbers.
+ *  
+ * @param: argc: The number of arguments.
+ * @param: **argv: The arguments that are going to be checked.
+ * 
+ * @return: Returns true if the argument is valid, false otherwise.
+ *
+ */
 
 t_bool	check_args(int argc, char **argv)
 {
