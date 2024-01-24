@@ -33,10 +33,12 @@ void	eating(t_philo *philo)
 	}
 	print_actions(philo, "is eating");
 	pthread_mutex_lock(&status->dead);
-	philo->time_last_eat = get_time_now();
+	philo->time_last_eat = get_time_now() - status->start;
 	pthread_mutex_unlock(&status->dead);
 	usleep(philo->status->time_to_eat * 1000);
-	philo->had_dinner = 1;
+	pthread_mutex_lock(&status->nbr_eat);
+	philo->had_dinner++;
+	pthread_mutex_unlock(&status->nbr_eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }

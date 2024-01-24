@@ -23,7 +23,7 @@ static void	*philo_routine(void *arg)
 		usleep(5000);
 	while (1)
 	{
-		thinking(philo);
+		eating(philo);
 		pthread_mutex_lock(&status->dead);
 		if (status->is_dead == 1)
 		{
@@ -31,9 +31,8 @@ static void	*philo_routine(void *arg)
 			break ;
 		}
 		pthread_mutex_unlock(&status->dead);
+		thinking(philo);
 		sleeping(philo);
-		eating(philo);
-		// printf("philo->had_dinner = %d\n", philo->had_dinner);
 	}
 	// if (philo->id % 2 == 0)
 	// 	usleep(8000);
@@ -53,6 +52,7 @@ static int	check_death(t_philo *philo, t_status *status, long int time_now)
 void	*monitor(void *arg)
 {
 	int			i;
+	int			all_ate_enough;
 	long int	time_now;
 	t_philo		*philo;
 	t_status	*status;
@@ -62,6 +62,7 @@ void	*monitor(void *arg)
 	while (1)
 	{
 		i = -1;
+		all_ate_enough = (status->nbr_must_eat > 0);
 		while (++i < status->nbr_philo)
 		{
 			pthread_mutex_lock(&status->print);
@@ -75,89 +76,26 @@ void	*monitor(void *arg)
 				pthread_mutex_unlock(&status->print);
 				return (NULL);
 			}
-			// if (philo_dined(philo) && status->nbr_must_eat > 0)
-			// {
-			// 	status->is_dead = 1;
-			// 	pthread_mutex_unlock(&status->print);
-			// 	return (NULL);
-			// }
 			pthread_mutex_unlock(&status->print);
+			pthread_mutex_lock(&status->nbr_eat);
+			if (all_ate_enough && philo[i].had_dinner < status->nbr_must_eat)
+				all_ate_enough = 0;
+			pthread_mutex_unlock(&status->nbr_eat);
 		}
+		pthread_mutex_lock(&status->print);
+		if (all_ate_enough)
+		{
+			pthread_mutex_lock(&status->dead);
+			status->is_dead = 1;
+			pthread_mutex_unlock(&status->dead);
+			pthread_mutex_unlock(&status->print);
+			break ;
+		}
+		pthread_mutex_unlock(&status->print);
 		usleep(100);
 	}
 	return (NULL);
 }
-
-// void	*monitor(void *arg)
-// {
-// 	int			i;
-// 	t_bool		all_ate_enough;
-// 	long int	time_now;
-// 	t_philo		*philo;
-// 	t_status	*status;
-	
-// 	philo = (t_philo *)arg;
-// 	status = philo[0].status;
-// 	while (1)
-// 	{
-// 		i = -1;
-// 		all_ate_enough = true;
-// 		while (++i < status->nbr_philo)
-// 		{
-// 			pthread_mutex_lock(&status->print);
-// 			time_now = get_time_now();
-// 			if (time_now - philo[i].time_last_eat > status->time_to_die)
-// 			{
-// 				status->is_dead = 1;
-// 				pthread_mutex_unlock(&status->print);
-// 				return (NULL);
-// 			}
-// 			if (status->nbr_must_eat > 0 && philo[i].times_ate < status->nbr_must_eat)
-// 				all_ate_enough = false;
-// 			pthread_mutex_unlock(&status->print);
-// 		}
-// 		if (all_ate_enough && status->nbr_must_eat > 0)
-// 		{
-// 			status->is_dead = 1;
-// 			break ;
-// 		}
-// 		usleep(1000);
-// 	}
-// 	return (NULL);
-// }
-
-// backup 1
-// void	*monitor(void *arg)
-// {
-// 	t_philo		*philo;
-// 	t_status	*status;
-	
-// 	philo = (t_philo *)arg;
-// 	status = philo[0].status;
-// 	while (1)
-// 	{
-// 		pthread_mutex_lock(&status->print);
-// 		if (teste >= 20)
-// 		{
-// 			status->is_dead = 1;
-// 			pthread_mutex_unlock(&status->print);
-// 			break ;
-// 		}
-// 		// if (status->is_dead == 1)
-// 		// {
-// 		// 	pthread_mutex_unlock(&status->print);
-// 		// 	return (NULL);
-// 		// }
-// 		// if (status->nbr_must_eat <= 0)
-// 		// {
-// 		// 	pthread_mutex_unlock(&status->print);
-// 		// 	break ;
-// 		// }
-// 		pthread_mutex_unlock(&status->print);
-// 		usleep(10000);
-// 	}
-// 	return (NULL);
-// }
 
 void	start_threads(t_philo *philos, t_status *status)
 {

@@ -23,9 +23,9 @@ t_bool	philo_dined(t_philo *philo)
 	{
 		// pthread_mutex_lock(&status->print);
 		if (philo[i].had_dinner == 1)
-			status->jantou++;
-		// printf("nbr_dined: %d\n", status->jantou);
-		if (status->jantou == status->nbr_philo)
+			status->had_dined++;
+		// printf("nbr_dined: %d\n", status->had_dined);
+		if (status->had_dined == status->nbr_philo)
 		{
 			// pthread_mutex_unlock(&status->print);
 			return (true);

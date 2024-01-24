@@ -22,7 +22,7 @@ typedef struct s_status
     int				time_to_eat;
     int				time_to_sleep;
     int				nbr_must_eat;
-    int             jantou;
+    int             had_dined;
     int				is_dead;
     long			start;
     pthread_mutex_t	*forks;

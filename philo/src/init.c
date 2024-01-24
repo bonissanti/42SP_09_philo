@@ -25,7 +25,7 @@ void    init_status(int argc, char **argv, t_status *status)
         status->nbr_must_eat = (int)ft_atol(argv[5]);
     else
         status->nbr_must_eat = -1;
-    status->jantou = 0;
+    status->had_dined = 0;
     status->is_dead = 0;
     status->start = get_time_now();
 
@@ -52,5 +52,9 @@ void    init_philos(t_philo *philo, t_status *status)
         philo[i].status = status;
         philo[i].left_fork = &status->forks[i];
         philo[i].right_fork = &status->forks[(i + 1) % status->nbr_philo];
+        // if (i == status->nbr_philo - 1)
+        //     philo[i].right_fork = &status->forks[0];
+        // else
+        //     philo[i].right_fork = &status->forks[i + 1];
     }
 }
