@@ -15,15 +15,14 @@ HEADER 			= ./include
 
 ################################# Sources ###################################
 
-MAND_SRCS 		= main.c \
-				check_args.c \
-				init.c \
-				time.c \
-				minilib.c \
-				semaphores.c \
-				actions.c \
-				actions_utils.c \
-				# monitor.c \
+MAND_SRCS 		= main_bonus.c \
+				check_args_bonus.c \
+				init_bonus.c \
+				time_bonus.c \
+				minilib_bonus.c \
+				semaphores_bonus.c \
+				actions_bonus.c \
+				actions_utils_bonus.c \
 
 SRC 			= $(addprefix ./src/, $(MAND_SRCS))
 
