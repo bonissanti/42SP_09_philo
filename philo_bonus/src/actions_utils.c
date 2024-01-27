@@ -34,8 +34,8 @@ void	print_actions(t_philo *philo, char *msg)
 	long int	time_now;
 
 	status = philo->status;
-	time_now = get_time_now() - status->start;
 	sem_wait(status->print);
+	time_now = get_time_now() - status->start;
 	printf("%ld %d %s\n", time_now, philo->id, msg);
 	sem_post(status->print);
 }
@@ -48,9 +48,9 @@ void	print_actions(t_philo *philo, char *msg)
  * is dead, because this function is only called when the philosopher is dead.
  * 
  * Besides, if we had used print_actions, mandatorily we would have to call
- * pthread_mutex_lock(&status->dead) together with pthread_mutex_lock(&status->print)
- * to check correctly if the philosopher is dead. Since we are only printing 
- * the death, this is unnecessary.
+ * pthread_mutex_lock(&status->dead) together with 
+ * pthread_mutex_lock(&status->print) to check correctly if the philosopher 
+ * is dead. Since we are only printing the death, this is unnecessary.
  *  
  * @param: *philo: The philosopher that is going to perform the action.
  * @param: *msg: The message to be printed.
@@ -67,7 +67,7 @@ void	print_death(t_philo *philo, char *msg)
 	long int	time_now;
 
 	sem_wait(philo->status->print);
-	time_now = get_time_now() - philo->status->start;		
+	time_now = get_time_now() - philo->status->start;
 	printf("%ld %d %s\n", time_now, philo->id, msg);
 	sem_post(philo->status->print);
 }

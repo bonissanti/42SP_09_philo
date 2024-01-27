@@ -26,24 +26,18 @@
  *
  */
 
-static	void	get_forks(t_philo *philo)
+static void	get_forks(t_philo *philo)
 {
-	t_status	*status;
-
-	status = philo->status;
-	sem_wait(status->forks);
-	sem_wait(status->forks);
+	sem_wait(philo->status->forks);
+	sem_wait(philo->status->forks);
 	print_actions(philo, "has taken a fork");
 	print_actions(philo, "has taken a fork");
 }
 
-static	void	put_forks(t_philo *philo)
+static void	put_forks(t_philo *philo)
 {
-	t_status	*status;
-
-	status = philo->status;
-	sem_post(status->forks);
-	sem_post(status->forks);
+	sem_post(philo->status->forks);
+	sem_post(philo->status->forks);
 }
 
 /**
@@ -69,26 +63,14 @@ static	void	put_forks(t_philo *philo)
 void	eating(t_philo *philo)
 {
 	t_status	*status;
-	long int	current_time;
 
 	status = philo->status;
 	get_forks(philo);
 	print_actions(philo, "is eating");
 	philo->time_last_eat = get_time_now() - status->start;
-	usleep(status->time_to_eat * 10);
+	ft_usleep_checker(philo, status->time_to_eat);
 	philo->had_dinner++;
 	put_forks(philo);
-
-	// checagem de morte por tempo
-	current_time = get_time_now() - status->start;
-	if (current_time - philo->time_last_eat > status->time_to_die)
-	{
-		printf("current_time: %ld\n", current_time);
-		exit(1);
-
-	}
-	if (philo->had_dinner == status->nbr_eat)
-		exit(0);
 }
 
 /**
@@ -110,18 +92,8 @@ void	eating(t_philo *philo)
 
 void	thinking(t_philo *philo)
 {
-	t_status	*status;
-	long int	current_time;
-
-	status = philo[0].status;
-
-	// checagem de morte por tempo
-
 	print_actions(philo, "is thinking");
 	usleep(500);
-	current_time = get_time_now() - status->start;
-	if (current_time - philo->time_last_eat > status->time_to_die)
-		exit(1);
 }
 
 /**
@@ -145,15 +117,8 @@ void	thinking(t_philo *philo)
 void	sleeping(t_philo *philo)
 {
 	t_status	*status;
-	long int	current_time;
 
-	status = philo[0].status;
-
+	status = philo->status;
 	print_actions(philo, "is sleeping");
-	usleep(philo->status->time_to_sleep * 1000);
-	
-	// checagem de morte por tempo
-	current_time = get_time_now() - status->start;
-	if (current_time - philo->time_last_eat > status->time_to_die)
-		exit(1);
+	ft_usleep_checker(philo, status->time_to_sleep);
 }

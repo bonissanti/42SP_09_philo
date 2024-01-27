@@ -65,3 +65,30 @@ void	*ft_calloc(size_t count, size_t size)
 	memset(ptr, 0, total_size);
 	return (ptr);
 }
+
+static void	rip_philo(t_philo *philo, t_status *status)
+{
+	long int	time_now;
+
+	time_now = get_time_now() - status->start;
+	if (time_now - philo->time_last_eat > status->time_to_die)
+	{
+		clean_up(status);
+		exit(1);
+	}
+}
+
+int	ft_usleep_checker(t_philo *philo, long int time)
+{
+	t_status	*status;
+	long int	start;
+
+	status = philo[0].status;
+	start = get_time_now();
+	while (get_time_now() - start < time)
+	{
+		usleep(10);
+		rip_philo(philo, status);
+	}
+	return (0);
+}

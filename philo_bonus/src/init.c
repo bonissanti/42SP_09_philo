@@ -83,6 +83,5 @@ void	init_philos(t_philo *philo, t_status *status)
 		philo[i].had_dinner = 0;
 		philo[i].time_last_eat = 0;
 		philo[i].status = status;
-		philo[i].forks = status->forks;
 	}
 }

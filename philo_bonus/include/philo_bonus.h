@@ -44,7 +44,6 @@ typedef struct s_philo
 	int				had_dinner;
 	t_status		*status;
 	sem_t			*forks;
-	// sem_t			*right_fork;
 }					t_philo;
 
 //##################################### INIT ###################################
@@ -68,11 +67,13 @@ void				sleeping(t_philo *philo);
 //##################################### UTILS ##################################
 
 void				*ft_calloc(size_t count, size_t size);
+int					ft_usleep_checker(t_philo *philo, long int time);
 void				print_actions(t_philo *philo, char *msg);
 void				print_death(t_philo *philo, char *msg);
 t_bool				philo_dined(t_philo *philo);
 size_t				atosz(const char *str);
 long int			get_time_now(void);
 void				clean_up(t_status *status);
+void				terminate_all(t_status *status);
 
 #endif

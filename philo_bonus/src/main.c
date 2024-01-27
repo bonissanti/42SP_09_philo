@@ -12,17 +12,6 @@
 
 #include "../include/philo_bonus.h"
 
-void	clean_up(t_status *status)
-{
-	sem_close(status->print);
-	sem_close(status->eat);
-	sem_close(status->dead);
-	sem_close(status->nbr_eat);
-	sem_close(status->forks);
-	free(status->pid);
-	free(status);
-}
-
 /**
  * Function: main
  * -----------------
@@ -46,22 +35,20 @@ void	clean_up(t_status *status)
 
 int	main(int argc, char **argv)
 {
-	t_philo		*philo;
 	t_status	*status;
+	t_philo		philo[1024];
 
 	if (!check_args(argc, argv + 1))
 		return (1);
 	status = malloc(sizeof(t_status));
 	init_status(argc, argv, status);
-	philo = malloc(sizeof(t_philo) * status->nbr_philo);
 	init_philos(philo, status);
 	if (status->nbr_philo == 1)
 		one_philo(philo);
 	else if (status->nbr_philo > 1)
 		start_semaphores(philo, status);
-	// else
-	// 	printf("Error: Number of philosophers must be greater than 0\n");
+	else
+		printf("Error: Number of philosophers must be greater than 0\n");
 	clean_up(status);
-	free(philo);
 	return (0);
 }
